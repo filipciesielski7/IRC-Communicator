@@ -720,7 +720,7 @@ void handleConnection(int connectionSocketDescriptor)
     {
         users[freeSlot].socket = connectionSocketDescriptor;
         write(users[freeSlot].socket, "You are connected to the server!\n", 33);
-        write(users[freeSlot].socket, "[0] - Modify username\n[1] - Create new room\n[2] - Join room\n[3] - Leave room\n[4] - Send message\n[5] - Removing users\n[x] - Show info\n", 113);
+        write(users[freeSlot].socket, "[0] - Modify username\n[1] - Create new room\n[2] - Join room\n[3] - Leave room\n[4] - Send message\n[5] - Removing users\n[x] - Show info\n", 134);
         printf("Added new user to slot: %d / %d\n", freeSlot + 1, USER_SIZE);
 
         struct thread_data_t *t_data1;
