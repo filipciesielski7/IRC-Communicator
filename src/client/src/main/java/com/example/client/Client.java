@@ -19,7 +19,6 @@ public class Client extends Application {
     public static ObservableList<Room> allRooms = FXCollections.observableArrayList();
 
     private Socket socket;
-
     private PrintWriter writer;
 
     @Override
@@ -30,7 +29,6 @@ public class Client extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
 
     public User getUser() {
         return user;
@@ -65,6 +63,6 @@ public class Client extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

@@ -10,8 +10,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
    <children>
       <ToolBar prefHeight="38.0" prefWidth="600.0">
         <items>
@@ -30,12 +29,13 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextField>
-          <Button fx:id="updateName" mnemonicParsing="false" text="Update name">
+          <Button fx:id="updateName" mnemonicParsing="false" onMouseClicked="#onUpdateNameButtonClick" text="Update name">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </Button>
-            <Button fx:id="logout" contentDisplay="RIGHT" mnemonicParsing="false" text="Logout">
+            <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnectButtonClick" text="Connect" />
+            <Button fx:id="logout" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" text="Logout">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
