@@ -1,16 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.client.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ToolBar prefHeight="38.0" prefWidth="600.0">
+        <items>
+            <ChoiceBox fx:id="choiceRoom" prefWidth="150.0">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ChoiceBox>
+            <Button fx:id="joinRoom" mnemonicParsing="false" text="Join Room">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Button>
+            <TextField fx:id="username" prefHeight="25.0" prefWidth="114.0">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+          <Button fx:id="updateName" mnemonicParsing="false" text="Update name">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="logout" contentDisplay="RIGHT" mnemonicParsing="false" text="Logout">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Button>
+        </items>
+      </ToolBar>
+      <ListView fx:id="roomsList" layoutX="10.0" layoutY="47.0" prefHeight="275.0" prefWidth="114.0" />
+      <TextField fx:id="messageInput" alignment="TOP_LEFT" layoutX="132.0" layoutY="327.0" prefHeight="59.0" prefWidth="383.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Button fx:id="send" layoutX="523.0" layoutY="327.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="68.0" text="Send">
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="addRoom" layoutX="13.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Add room">
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </Button>
+      <TextField fx:id="newRoomName" layoutX="13.0" layoutY="327.0" prefHeight="31.0" prefWidth="108.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <ScrollPane layoutX="132.0" layoutY="47.0" prefHeight="275.0" prefWidth="459.0">
+         <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="458.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
