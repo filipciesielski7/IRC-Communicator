@@ -34,7 +34,7 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </Button>
-            <Button fx:id="connect" mnemonicParsing="false" onAction="#onConnectButtonClick" text="Connect" />
+            <Button fx:id="connect" mnemonicParsing="false" onMouseClicked="#onConnectButtonClick" text="Connect" />
             <Button fx:id="logout" contentDisplay="RIGHT" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" text="Logout">
                <opaqueInsets>
                   <Insets />
@@ -56,7 +56,7 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </Button>
-      <Button fx:id="addRoom" layoutX="13.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Add room">
+      <Button fx:id="addRoom" layoutX="13.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#onAddRoomButtonClick" prefHeight="25.0" prefWidth="108.0" text="Add room">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
@@ -68,7 +68,7 @@
       </TextField>
       <ScrollPane layoutX="132.0" layoutY="47.0" prefHeight="275.0" prefWidth="459.0">
          <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="458.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#onAddRoomButtonClick" prefHeight="276.0" prefWidth="458.0" />
          </content>
       </ScrollPane>
    </children>

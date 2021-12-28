@@ -1,5 +1,7 @@
 package com.example.client;
 
+import com.example.client.structures.Room;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -39,8 +41,14 @@ public class Controller {
     private TextField messageInput;
 
     @FXML
+    private TextField newRoomName;
+
+    @FXML
+    private Button addRoom;
+
+    @FXML
     protected void onConnectButtonClick() {
-        if (client.getUser().getUsername() == null) {
+        if (client.getUser().getUsername() == null && !username.getText().isEmpty()) {
             try {
                 Socket socket = new Socket("localhost", 1234);
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
@@ -61,7 +69,10 @@ public class Controller {
                 System.out.println("Can't connect to server!");
             }
         }
-        else {
+        else if (client.getUser().getUsername() == null && username.getText().isEmpty()){
+            System.out.println("You have to type in your name before connecting to the server!");
+        }
+        else if (client.getUser().getUsername() != null){
             System.out.println("Already connected to the server!");
         }
     }
@@ -98,6 +109,22 @@ public class Controller {
         }
         else{
             System.out.println("Can't change username!");
+        }
+    }
+
+    @FXML
+    private void onAddRoomButtonClick() {
+        if (client.getUser().isConnected() && !newRoomName.getText().isEmpty()) { // sprawdzenie czy takie istnieje
+            if (client.getSocket() != null) {
+                client.getWriter().println("#1%" + newRoomName.getText()+"$");
+                newRoomName.setText("");
+            }
+        }
+        else if (client.getUser().isConnected() && newRoomName.getText().isEmpty()){
+            System.out.println("You have to type in new room name before adding!");
+        }
+        else{
+            System.out.println("Can't add room because you are not connected to the server!");
         }
     }
 

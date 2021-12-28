@@ -38,7 +38,7 @@ public class Client extends Application {
         this.user = user;
     }
 
-    public static ObservableList<Room> getAllRooms() {
+    public ObservableList<Room> getAllRooms() {
         return allRooms;
     }
 
