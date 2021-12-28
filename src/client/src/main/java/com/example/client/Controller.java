@@ -15,6 +15,7 @@ import java.net.Socket;
 public class Controller {
 
     private Client client = new Client();
+    private ResponseFromServer responseFromServer;
 
     @FXML
     private ChoiceBox choiceRoom;
@@ -62,6 +63,11 @@ public class Controller {
                 client.getUser().setConnected(true);
 
                 if (client.getSocket() != null) {
+                    this.responseFromServer = new ResponseFromServer(this.client);
+                    responseFromServer.setStopped(false);
+                    Thread t = new Thread(this.responseFromServer);
+                    t.start();
+
                     client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
                 }
 
@@ -86,6 +92,7 @@ public class Controller {
 
             try {
                 System.out.println("Disconnected: " + client.getSocket());
+                responseFromServer.setStopped(true);
                 client.getSocket().close();
             } catch (IOException ex) {
                 System.out.println("Cant' disconnect!");
