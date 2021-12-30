@@ -21,6 +21,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.*;
+
 public class Controller implements Initializable {
 
     private Client client = new Client();
@@ -223,9 +225,24 @@ public class Controller implements Initializable {
 //        System.out.println("Rooms list: " + client.getUser().getRooms());
         if(empty){
             choiceRoom.getItems().clear();
+            activeRoom = null;
+            activeUser = null;
         }
         else{
             roomsList.setItems(client.getUser().getRooms());
+
+            roomsList.setCellFactory(param -> new ListCell<Room>() {
+                @Override
+                protected void updateItem(Room item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null || item.getRoomName() == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getRoomName());
+                    }
+                }
+            });
 
             client.allRooms.forEach(x -> {
                 if (!choiceRoom.getItems().contains(x.getRoomName())) {
@@ -239,6 +256,19 @@ public class Controller implements Initializable {
 //        System.out.println("Users list: " + client.getUser().getRooms());
         if (this.activeRoom != null && this.activeRoom.getRoomName().equals(activeRoom.getRoomName())){
             usersList.setItems(activeRoom.getUsers());
+
+            usersList.setCellFactory(param -> new ListCell<User>() {
+                @Override
+                protected void updateItem(User item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null || item.getUsername() == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getUsername());
+                    }
+                }
+            });
         }
         else if(this.roomsList.getItems().size() == 0){
             usersList.getItems().clear();
@@ -248,7 +278,7 @@ public class Controller implements Initializable {
     public void onDeleteUserButtonClick() {
         if (client.getUser().isConnected() && activeUser != null) {
             if (client.getSocket() != null) {
-                System.out.println(activeUser.toString());
+                System.out.println(activeUser.getUsername());
                 client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
             }
         }

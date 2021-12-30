@@ -84,7 +84,7 @@ public class ResponseFromServer implements Runnable {
 
                         if (client.getController().getActiveRoom() == null && userInRoom) {
                             client.getController().setActiveRoom(room);
-                            client.getController().getRoomsList().getSelectionModel().selectFirst(); // ?
+                            client.getController().getRoomsList().getSelectionModel().selectFirst();
                         }
                         if (client.getController().getActiveRoom() != null &&
                                 client.getController().getActiveRoom().getRoomName().equals(room.getRoomName())) {
