@@ -631,7 +631,7 @@ void *ThreadBehavior(void *t_data)
 
                     if (findUserInRoom((*th_data).userID, i) > 0)
                     {
-                        printf("User \"%s\" doesn't belong to \"%s\" room\n", users[(*th_data).userID].name, string);
+                        printf("User \"%s\" is not an admin of \"%s\" room\n", users[(*th_data).userID].name, string);
                         write((*th_data).socket, "You can't remove user from this room, because you are not an admin of this room!\n", 82);
                         break;
                     }
