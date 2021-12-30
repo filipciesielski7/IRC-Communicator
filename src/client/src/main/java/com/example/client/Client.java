@@ -17,7 +17,7 @@ public class Client extends Application {
 
     private User user = new User(false);
     public static ObservableList<Room> allRooms = FXCollections.observableArrayList();
-
+    private Controller controller;
     private Socket socket;
     private PrintWriter writer;
 
@@ -28,6 +28,9 @@ public class Client extends Application {
         stage.setTitle("IRC-Communicator");
         stage.setScene(scene);
         stage.show();
+        controller = fxmlLoader.getController();
+        controller.setClient(this);
+        controller.setStage(stage);
     }
 
     public User getUser() {
@@ -62,7 +65,16 @@ public class Client extends Application {
         this.writer = writer;
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
+
 }

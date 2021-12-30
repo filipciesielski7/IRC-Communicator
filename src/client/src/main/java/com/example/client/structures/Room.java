@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Room {
     private String roomName;
     private ObservableList<User> users = FXCollections.observableArrayList();
-//    private ObservableList<Message> messages = FXCollections.observableArrayList();
+    private ObservableList<Message> messages = FXCollections.observableArrayList();
 
     public Room(String roomName) {
         this.roomName = roomName;
@@ -30,13 +30,13 @@ public class Room {
         this.users = users;
     }
 
-//    public ObservableList<Message> getMessages() {
-//        return messages;
-//    }
+    public ObservableList<Message> getMessages() {
+        return messages;
+    }
 
-//    public void setMessages(ObservableList<Message> messages) {
-//        this.messages = messages;
-//    }
+    public void setMessages(ObservableList<Message> messages) {
+        this.messages = messages;
+    }
 
     @Override
     public boolean equals(Object obj) {
