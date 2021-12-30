@@ -37,7 +37,7 @@ public class ResponseFromServer implements Runnable {
                     System.out.println(serverResponse);
                 }
                 else{
-                    System.out.println(serverResponse);
+//                    System.out.println(serverResponse);
                     continue;
                 }
 
@@ -46,6 +46,8 @@ public class ResponseFromServer implements Runnable {
                             this.client.getUser().getRooms().clear();
                             this.client.getAllRooms().clear();
                             this.client.getController().getChoiceRoom().getItems().clear();
+                            this.client.getController().getUsersList().getItems().clear();
+                            this.client.getController().getRoomsList().getItems().clear();
                         }
                 );
 
@@ -89,8 +91,8 @@ public class ResponseFromServer implements Runnable {
                             if (client.getController().getAllMessages() != null) {
                                 client.getController().getAllMessages().clear();
                             }
-                            System.out.println("Length of messages: " + room.getMessages().size());
-                            room.getMessages().forEach(message -> System.out.println(message.textFormat()));
+//                            System.out.println("Length of messages: " + room.getMessages().size());
+//                            room.getMessages().forEach(message -> System.out.println(message.textFormat()));
                             room.getMessages().forEach(message -> client.getController().updateMessage(message.textFormat()));
                         }
 
@@ -118,7 +120,6 @@ public class ResponseFromServer implements Runnable {
                     }
                 }
                 else{
-                    System.out.println(serverResponse);
                     this.client.getController().displayRoomsList(true);
                 }
             }

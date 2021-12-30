@@ -2,11 +2,9 @@ package com.example.client;
 
 import com.example.client.structures.Message;
 import com.example.client.structures.Room;
-import javafx.application.Platform;
+import com.example.client.structures.User;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,19 +13,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
-import javafx.scene.control.ListCell;
-import javafx.util.Callback;
-
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -36,7 +27,8 @@ public class Controller implements Initializable {
     private Stage stage;
     private ResponseFromServer responseFromServer;
     private Room activeRoom;
-    private String choosenRoom;
+    private User activeUser;
+    private String chosenRoom;
 
     @FXML
     private ChoiceBox choiceRoom;
@@ -60,6 +52,9 @@ public class Controller implements Initializable {
     private ListView<Room> roomsList;
 
     @FXML
+    private ListView<User> usersList;
+
+    @FXML
     private TextField messageInput;
 
     @FXML
@@ -77,6 +72,7 @@ public class Controller implements Initializable {
         if (allMessages != null) {
             allMessages.textProperty().addListener((observable, oldValue, newValue) -> {
                 allMessages.setText(newValue);
+                displayUsersList(activeRoom);
             });
         }
 
@@ -86,30 +82,43 @@ public class Controller implements Initializable {
                 if (newRoom != null) {
                     allMessages.clear();
                     activeRoom = newRoom;
+                    displayUsersList(activeRoom);
+
                     activeRoom.getMessages().forEach(message -> {
                         if (message.getRoomName().equals(activeRoom.getRoomName())) {
                             updateMessage(message.textFormat());
                         }
                     });
                 }
+                else{
+                    displayUsersList(activeRoom);
+                }
+            }
+        });
 
+        usersList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observableValue, User oldUser, User newUser) {
+                if (newUser != null) {
+                    activeUser = newUser;
+                }
             }
         });
 
         choiceRoom.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                choosenRoom = t1;
+            public void changed(ObservableValue<? extends String> observableValue, String s, String newRoom) {
+                chosenRoom = newRoom;
             }
         });
     }
 
     @FXML
     public void onJoinRoomButtonClick() {
-        if (choosenRoom != null) {
+        if (chosenRoom != null) {
             Room result = null;
             for (Room c : client.getAllRooms()) {
-                if (choosenRoom.equals(c.getRoomName())) {
+                if (chosenRoom.equals(c.getRoomName())) {
                     result = c;
                     break;
                 }
@@ -158,7 +167,6 @@ public class Controller implements Initializable {
     private void onLogoutButtonClick() {
         if (client.getUser().isConnected()) {
             client.getUser().getRooms().forEach(x -> {
-                    System.out.println(x.getRoomName());
                     client.getWriter().println("#3%" + x.getRoomName()+"$");
                 }
             );
@@ -178,6 +186,7 @@ public class Controller implements Initializable {
         }
         else{
             System.out.println("Already disconnected from the server!");
+            stage.close();
         }
     }
 
@@ -211,7 +220,7 @@ public class Controller implements Initializable {
     }
 
     public void displayRoomsList(Boolean empty) {
-        System.out.println("Rooms list: " + client.getUser().getRooms());
+//        System.out.println("Rooms list: " + client.getUser().getRooms());
         if(empty){
             choiceRoom.getItems().clear();
         }
@@ -226,8 +235,30 @@ public class Controller implements Initializable {
         }
     }
 
+    public void displayUsersList(Room activeRoom) {
+//        System.out.println("Users list: " + client.getUser().getRooms());
+        if (this.activeRoom != null && this.activeRoom.getRoomName().equals(activeRoom.getRoomName())){
+            usersList.setItems(activeRoom.getUsers());
+        }
+        else if(this.roomsList.getItems().size() == 0){
+            usersList.getItems().clear();
+        }
+    }
+
+    public void onDeleteUserButtonClick() {
+        if (client.getUser().isConnected() && activeUser != null) {
+            if (client.getSocket() != null) {
+                System.out.println(activeUser.toString());
+                client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
+            }
+        }
+        else{
+            System.out.println("Can't delete user!");
+        }
+    }
+
     public void updateMessage(String message) {
-        System.out.println("Updating message" + message);
+//        System.out.println("Updating message" + message);
         if (this.allMessages == null) {
             this.allMessages.setText(message);
         }  else {
@@ -246,7 +277,7 @@ public class Controller implements Initializable {
             Message message = new Message(client.getUser().getUsername(), activeRoom.getRoomName(), time, text);
             client.getWriter().println("#4%" + message.getRoomName() + "%" + message.getTime() + ";" + message.getText() + "$");
 
-            System.out.println("Message to send: " + message.getText());
+//            System.out.println("Message to send: " + message.getText());
             this.messageInput.clear();
         }
         else {
@@ -300,5 +331,13 @@ public class Controller implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public ListView<User> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(ListView<User> usersList) {
+        this.usersList = usersList;
     }
 }

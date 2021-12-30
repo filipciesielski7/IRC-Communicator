@@ -24,7 +24,7 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Client.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 412);
         stage.setTitle("IRC-Communicator");
         stage.setScene(scene);
         stage.show();

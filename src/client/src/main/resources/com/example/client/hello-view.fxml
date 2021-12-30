@@ -11,7 +11,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
     <children>
         <ToolBar prefHeight="38.0" prefWidth="600.0">
             <items>
@@ -47,12 +47,12 @@
             </items>
         </ToolBar>
         <ListView fx:id="roomsList" layoutX="10.0" layoutY="47.0" prefHeight="275.0" prefWidth="114.0" />
-        <TextField fx:id="messageInput" alignment="TOP_LEFT" layoutX="132.0" layoutY="327.0" prefHeight="59.0" prefWidth="383.0">
+        <TextField fx:id="messageInput" alignment="TOP_LEFT" layoutX="132.0" layoutY="327.0" prefHeight="59.0" prefWidth="378.0">
             <cursor>
                 <Cursor fx:constant="TEXT" />
             </cursor>
         </TextField>
-        <Button fx:id="send" layoutX="523.0" layoutY="327.0" mnemonicParsing="false" onMouseClicked="#onSendButtonClick" prefHeight="59.0" prefWidth="68.0" text="Send">
+        <Button fx:id="send" layoutX="518.0" layoutY="327.0" mnemonicParsing="false" onKeyPressed="#onSendButtonClick" onMouseClicked="#onSendButtonClick" prefHeight="59.0" prefWidth="68.0" text="Send">
             <cursor>
                 <Cursor fx:constant="OPEN_HAND" />
             </cursor>
@@ -67,13 +67,15 @@
                 <Cursor fx:constant="TEXT" />
             </cursor>
         </TextField>
-        <ScrollPane layoutX="132.0" layoutY="47.0" prefHeight="275.0" prefWidth="459.0">
+        <ScrollPane layoutX="132.0" layoutY="47.0" prefHeight="275.0" prefWidth="333.0">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="458.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="332.0">
                     <children>
-                        <TextArea fx:id="allMessages" editable="false" layoutX="8.0" layoutY="4.0" prefHeight="248.0" prefWidth="427.0" />
+                        <TextArea fx:id="allMessages" editable="false" layoutX="8.0" layoutY="4.0" prefHeight="248.0" prefWidth="305.0" />
                     </children></AnchorPane>
             </content>
         </ScrollPane>
+      <ListView fx:id="usersList" layoutX="472.0" layoutY="80.0" prefHeight="243.0" prefWidth="114.0" />
+      <Button layoutX="472.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#onDeleteUserButtonClick" prefHeight="25.0" prefWidth="114.0" text="Delete user" />
     </children>
 </AnchorPane>
