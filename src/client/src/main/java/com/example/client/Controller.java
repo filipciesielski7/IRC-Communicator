@@ -126,6 +126,11 @@ public class Controller implements Initializable {
                 }
             }
             client.getWriter().println("#2%" + result.getRoomName() + "$");
+            try{
+                Thread.sleep(500);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -151,6 +156,11 @@ public class Controller implements Initializable {
                     t.start();
 
                     client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
+                    try{
+                        Thread.sleep(500);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
 
             } catch (IOException ex) {
@@ -170,6 +180,11 @@ public class Controller implements Initializable {
         if (client.getUser().isConnected()) {
             client.getUser().getRooms().forEach(x -> {
                     client.getWriter().println("#3%" + x.getRoomName()+"$");
+                    try{
+                        Thread.sleep(500);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             );
 
@@ -198,6 +213,11 @@ public class Controller implements Initializable {
             client.getUser().setUsername(username.getText());
             if (client.getSocket() != null) {
                 client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         else{
@@ -210,6 +230,11 @@ public class Controller implements Initializable {
         if (client.getUser().isConnected() && !newRoomName.getText().isEmpty()) {
             if (client.getSocket() != null) {
                 client.getWriter().println("#1%" + newRoomName.getText()+"$");
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 newRoomName.setText("");
             }
         }
@@ -256,6 +281,9 @@ public class Controller implements Initializable {
 //        System.out.println("Users list: " + client.getUser().getRooms());
         if (this.activeRoom != null && this.activeRoom.getRoomName().equals(activeRoom.getRoomName())){
             usersList.setItems(activeRoom.getUsers());
+            if(!usersList.getItems().get(0).getUsername().contains(" ⭐️")){
+                usersList.getItems().get(0).setUsername(usersList.getItems().get(0).getUsername() + " ⭐️");
+            }
 
             usersList.setCellFactory(param -> new ListCell<User>() {
                 @Override
@@ -278,7 +306,6 @@ public class Controller implements Initializable {
     public void onDeleteUserButtonClick() {
         if (client.getUser().isConnected() && activeUser != null) {
             if (client.getSocket() != null) {
-                System.out.println(activeUser.getUsername());
                 client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
             }
         }
@@ -298,7 +325,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void onSendButtonClick() {
-        if (client.getUser().isConnected() && activeRoom != null) {
+        if (client.getUser().isConnected() && activeRoom != null && this.messageInput.getText() != "") {
             String time = DateTimeFormatter.ofPattern("hh:mm:ss").format(ZonedDateTime.now());
 
             String text = messageInput.getText();
@@ -307,8 +334,17 @@ public class Controller implements Initializable {
             Message message = new Message(client.getUser().getUsername(), activeRoom.getRoomName(), time, text);
             client.getWriter().println("#4%" + message.getRoomName() + "%" + message.getTime() + ";" + message.getText() + "$");
 
+            try{
+                Thread.sleep(500);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
 //            System.out.println("Message to send: " + message.getText());
             this.messageInput.clear();
+        }
+        else if(this.messageInput.getText() == ""){
+            System.out.println("Can't send empty message!");
         }
         else {
             System.out.println("Can't send message!");

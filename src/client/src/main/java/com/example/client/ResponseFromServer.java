@@ -46,7 +46,7 @@ public class ResponseFromServer implements Runnable {
                             this.client.getUser().getRooms().clear();
                             this.client.getAllRooms().clear();
                             this.client.getController().getChoiceRoom().getItems().clear();
-                            this.client.getController().getUsersList().getItems().clear();
+//                            this.client.getController().getUsersList().getItems().clear();
                             this.client.getController().getRoomsList().getItems().clear();
                         }
                 );
@@ -71,7 +71,7 @@ public class ResponseFromServer implements Runnable {
                             }
                         }
 
-                        if (roomAndUsers.length > 2) {
+                        if (roomAndUsers.length > 2 && userInRoom) {
                             String[] messages = roomAndUsers[2].split(";");
 
                             for (int j = 0; j < messages.length; j++) {
