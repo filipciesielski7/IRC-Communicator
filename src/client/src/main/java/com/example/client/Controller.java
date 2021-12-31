@@ -461,4 +461,12 @@ public class Controller implements Initializable {
     public void setLabel(Label label) {
         this.label = label;
     }
+
+    public ResponseFromServer getResponseFromServer() {
+        return responseFromServer;
+    }
+
+    public void setResponseFromServer(ResponseFromServer responseFromServer) {
+        this.responseFromServer = responseFromServer;
+    }
 }

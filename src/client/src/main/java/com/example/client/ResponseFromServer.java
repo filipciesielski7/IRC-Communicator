@@ -6,6 +6,7 @@ import com.example.client.structures.User;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ResponseFromServer implements Runnable {
@@ -34,10 +35,23 @@ public class ResponseFromServer implements Runnable {
 
                 if(serverResponse.contains("#")){
                     serverResponse = serverResponse.substring(serverResponse.indexOf("#"));
-                    System.out.println(serverResponse);
+//                    System.out.println(serverResponse);
                 }
                 else{
                     final String response_copy = serverResponse;
+                    if(response_copy.equals("At this moment there are to many users connected to the server. Please try again later!")){
+                        Platform.runLater(() -> {
+                            this.client.getController().getLabel().setText(response_copy);
+                            this.client.getUser().setConnected(false);
+                            this.client.getUser().setUsername(null);
+                            try {
+                                System.out.println("Disconnected: " + this.client.getSocket());
+                                this.client.getController().getResponseFromServer().setStopped(true);
+                                this.client.getSocket().close();
+                            } catch (Exception e){
+                            }
+                        });
+                    }
 //                    System.out.println(serverResponse);
                     Platform.runLater(() -> {
                         this.client.getController().getLabel().setText(response_copy);
@@ -128,7 +142,7 @@ public class ResponseFromServer implements Runnable {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
+            e.printStackTrace();
         }
     }
 }
