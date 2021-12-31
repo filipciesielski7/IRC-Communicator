@@ -635,21 +635,19 @@ void *ThreadBehavior(void *t_data)
                         write((*th_data).socket, "You can't remove user from this room, because you are not an admin of this room!\n", 82);
                         break;
                     }
-
                     memset(string, 0, sizeof(string));
                     for (k = 0; k < LOGIN_SIZE; k++)
                     {
                         c = (*th_data).fromClient[j + k];
                         if (c != '$')
                         {
-                            string[l + k] = (*th_data).fromClient[j + k];
+                            string[k] = (*th_data).fromClient[j + k];
                         }
                         else
                         {
                             break;
                         }
                     }
-
                     int l = getUserIDbyName(string);
                     if (l == -1)
                     {
