@@ -37,7 +37,11 @@ public class ResponseFromServer implements Runnable {
                     System.out.println(serverResponse);
                 }
                 else{
+                    final String response_copy = serverResponse;
 //                    System.out.println(serverResponse);
+                    Platform.runLater(() -> {
+                        this.client.getController().getLabel().setText(response_copy);
+                    });
                     continue;
                 }
 

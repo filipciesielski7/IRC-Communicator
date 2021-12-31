@@ -3,6 +3,7 @@ package com.example.client;
 import com.example.client.structures.Message;
 import com.example.client.structures.Room;
 import com.example.client.structures.User;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -68,6 +69,9 @@ public class Controller implements Initializable {
     @FXML
     private Button addRoom;
 
+    @FXML
+    private Label label;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -132,6 +136,11 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
         }
+        else{
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't join a room!");
+            });
+        }
     }
 
     @FXML
@@ -164,14 +173,23 @@ public class Controller implements Initializable {
                 }
 
             } catch (IOException ex) {
-                System.out.println("Can't connect to server!");
+                Platform.runLater(() -> {
+                    this.client.getController().getLabel().setText("Can't connect to server!");
+                });
+//                System.out.println("Can't connect to server!");
             }
         }
         else if (client.getUser().getUsername() == null && username.getText().isEmpty()){
-            System.out.println("You have to type in your name before connecting to the server!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("You have to type in your name before connecting to the server!");
+            });
+//            System.out.println("You have to type in your name before connecting to the server!");
         }
         else if (client.getUser().getUsername() != null){
-            System.out.println("Already connected to the server!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Already connected to the server!");
+            });
+//            System.out.println("Already connected to the server!");
         }
     }
 
@@ -194,7 +212,10 @@ public class Controller implements Initializable {
                 client.getSocket().close();
                 stage.close();
             } catch (IOException ex) {
-                System.out.println("Cant' disconnect!");
+                Platform.runLater(() -> {
+                    this.client.getController().getLabel().setText("Cant' disconnect!");
+                });
+//                System.out.println("Cant' disconnect!");
             } catch (Exception e){
             }
 
@@ -202,7 +223,10 @@ public class Controller implements Initializable {
             client.getUser().setConnected(false);
         }
         else{
-            System.out.println("Already disconnected from the server!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Already disconnected from the server!");
+            });
+//            System.out.println("Already disconnected from the server!");
             stage.close();
         }
     }
@@ -220,8 +244,16 @@ public class Controller implements Initializable {
                 }
             }
         }
+        else if (username.getText().equals(client.getUser().getUsername())){
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("You typed in the same username!");
+            });
+        }
         else{
-            System.out.println("Can't change username!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't change username!");
+            });
+//            System.out.println("Can't change username!");
         }
     }
 
@@ -239,10 +271,16 @@ public class Controller implements Initializable {
             }
         }
         else if (client.getUser().isConnected() && newRoomName.getText().isEmpty()){
-            System.out.println("You have to type in new room name before adding!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("You have to type in new room name before adding!");
+            });
+//            System.out.println("You have to type in new room name before adding!");
         }
         else{
-            System.out.println("Can't add room because you are not connected to the server!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't add room because you are not connected to the server!");
+            });
+//            System.out.println("Can't add room because you are not connected to the server!");
         }
     }
 
@@ -281,9 +319,9 @@ public class Controller implements Initializable {
 //        System.out.println("Users list: " + client.getUser().getRooms());
         if (this.activeRoom != null && this.activeRoom.getRoomName().equals(activeRoom.getRoomName())){
             usersList.setItems(activeRoom.getUsers());
-            if(!usersList.getItems().get(0).getUsername().contains(" ⭐️")){
-                usersList.getItems().get(0).setUsername(usersList.getItems().get(0).getUsername() + " ⭐️");
-            }
+//            if(!usersList.getItems().get(0).getUsername().contains(" ⭐️")){
+//                usersList.getItems().get(0).setUsername(usersList.getItems().get(0).getUsername() + " ⭐️");
+//            }
 
             usersList.setCellFactory(param -> new ListCell<User>() {
                 @Override
@@ -310,7 +348,10 @@ public class Controller implements Initializable {
             }
         }
         else{
-            System.out.println("Can't delete user!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't delete user!");
+            });
+//            System.out.println("Can't delete user!");
         }
     }
 
@@ -344,10 +385,16 @@ public class Controller implements Initializable {
             this.messageInput.clear();
         }
         else if(this.messageInput.getText() == ""){
-            System.out.println("Can't send empty message!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't send empty message!");
+            });
+//            System.out.println("Can't send empty message!");
         }
         else {
-            System.out.println("Can't send message!");
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't send message!");
+            });
+//            System.out.println("Can't send message!");
         }
     }
 
@@ -405,5 +452,13 @@ public class Controller implements Initializable {
 
     public void setUsersList(ListView<User> usersList) {
         this.usersList = usersList;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
     }
 }
