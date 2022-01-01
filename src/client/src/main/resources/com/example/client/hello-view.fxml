@@ -26,7 +26,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                     </cursor>
                 </Button>
-                <TextField fx:id="username" prefHeight="25.0" prefWidth="114.0">
+                <TextField fx:id="username" prefHeight="25.0" prefWidth="114.0" promptText="username">
                     <cursor>
                         <Cursor fx:constant="TEXT" />
                     </cursor>
@@ -63,7 +63,7 @@
                 <Cursor fx:constant="OPEN_HAND" />
             </cursor>
         </Button>
-        <TextField fx:id="newRoomName" layoutX="13.0" layoutY="327.0" prefHeight="31.0" prefWidth="108.0">
+        <TextField fx:id="newRoomName" alignment="CENTER" layoutX="13.0" layoutY="327.0" prefHeight="31.0" prefWidth="108.0" promptText="room name">
             <cursor>
                 <Cursor fx:constant="TEXT" />
             </cursor>
