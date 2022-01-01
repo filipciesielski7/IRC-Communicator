@@ -40,6 +40,12 @@ public class Controller implements Initializable {
     private Button joinRoom;
 
     @FXML
+    private TextField ipAddress;
+
+    @FXML
+    private TextField portNumber;
+
+    @FXML
     private TextField username;
 
     @FXML
@@ -145,9 +151,10 @@ public class Controller implements Initializable {
 
     @FXML
     protected void onConnectButtonClick() {
-        if (client.getUser().getUsername() == null && !username.getText().isEmpty()) {
+        if (client.getUser().getUsername() == null && !username.getText().isEmpty() && !ipAddress.getText().isEmpty() && !portNumber.getText().isEmpty()) {
             try {
-                Socket socket = new Socket("localhost", 1234);
+                // localhost 1234
+                Socket socket = new Socket(ipAddress.getText(), Integer.parseInt(portNumber.getText()));
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
                 client.setSocket(socket);
@@ -190,6 +197,10 @@ public class Controller implements Initializable {
                 this.client.getController().getLabel().setText("Already connected to the server!");
             });
 //            System.out.println("Already connected to the server!");
+        } else if (ipAddress.getText().isEmpty() || portNumber.getText().isEmpty()) {
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("You have to type in server address and port number before connecting to the server!");
+            });
         }
     }
 
