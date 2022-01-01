@@ -6,6 +6,7 @@ import com.example.client.structures.User;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,7 +22,8 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.*;
 
 public class Controller implements Initializable {
@@ -82,6 +84,46 @@ public class Controller implements Initializable {
             });
         }
 
+        messageInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    onSendButtonClick();
+                }
+            }
+        });
+
+        newRoomName.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    onAddRoomButtonClick();
+                }
+            }
+        });
+
+        username.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    if(client.getUser().isConnected()){
+                        onUpdateNameButtonClick();
+                    } else{
+                        onConnectButtonClick();
+                    }
+                }
+            }
+        });
+
+        choiceRoom.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    onJoinRoomButtonClick();
+                }
+            }
+        });
+
         roomsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Room>() {
             @Override
             public void changed(ObservableValue<? extends Room> observableValue, Room oldRoom, Room newRoom) {
@@ -138,7 +180,12 @@ public class Controller implements Initializable {
         }
         else{
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("Can't join a room!");
+                if(this.client.getUser().isConnected()){
+                    this.client.getController().getLabel().setText("Choose room before joining!");
+                }
+                else{
+                    this.client.getController().getLabel().setText("Can't join room, because you are not connected to the server!");
+                }
             });
         }
     }
@@ -176,20 +223,17 @@ public class Controller implements Initializable {
                 Platform.runLater(() -> {
                     this.client.getController().getLabel().setText("Can't connect to server!");
                 });
-//                System.out.println("Can't connect to server!");
             }
         }
         else if (client.getUser().getUsername() == null && username.getText().isEmpty()){
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("You have to type in your name before connecting to the server!");
+                this.client.getController().getLabel().setText("Enter username before connecting to the server!");
             });
-//            System.out.println("You have to type in your name before connecting to the server!");
         }
         else if (client.getUser().getUsername() != null){
             Platform.runLater(() -> {
                 this.client.getController().getLabel().setText("Already connected to the server!");
             });
-//            System.out.println("Already connected to the server!");
         }
     }
 
@@ -215,7 +259,6 @@ public class Controller implements Initializable {
                 Platform.runLater(() -> {
                     this.client.getController().getLabel().setText("Cant' disconnect!");
                 });
-//                System.out.println("Cant' disconnect!");
             } catch (Exception e){
             }
 
@@ -224,10 +267,8 @@ public class Controller implements Initializable {
         }
         else{
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("Already disconnected from the server!");
+                this.client.getController().getLabel().setText("Can't disconnect, because you are not connected to the server!");
             });
-//            System.out.println("Already disconnected from the server!");
-            stage.close();
         }
     }
 
@@ -246,14 +287,20 @@ public class Controller implements Initializable {
         }
         else if (username.getText().equals(client.getUser().getUsername())){
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("You typed in the same username!");
+                this.client.getController().getLabel().setText("You entered the same username!");
             });
         }
         else{
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("Can't change username!");
+                if(this.client.getUser().isConnected()){
+                    this.client.getController().getLabel().setText("Can't change username to empty string!");
+                    username.setText(this.client.getUser().getUsername());
+                }
+                else{
+                    this.client.getController().getLabel().setText("Can't change username, because you are not connected to the server!");
+                    username.setText(this.client.getUser().getUsername());
+                }
             });
-//            System.out.println("Can't change username!");
         }
     }
 
@@ -272,15 +319,13 @@ public class Controller implements Initializable {
         }
         else if (client.getUser().isConnected() && newRoomName.getText().isEmpty()){
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("You have to type in new room name before adding!");
+                this.client.getController().getLabel().setText("Enter new room name before adding!");
             });
-//            System.out.println("You have to type in new room name before adding!");
         }
         else{
             Platform.runLater(() -> {
                 this.client.getController().getLabel().setText("Can't add room because you are not connected to the server!");
             });
-//            System.out.println("Can't add room because you are not connected to the server!");
         }
     }
 
@@ -349,14 +394,18 @@ public class Controller implements Initializable {
         }
         else{
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("Can't delete user!");
+                if(!this.client.getUser().isConnected()){
+                    this.client.getController().getLabel().setText("Can't delete user, because you are not connected to the server!");
+                }
+                else{
+                    this.client.getController().getLabel().setText("Choose user before removing!");
+                }
             });
-//            System.out.println("Can't delete user!");
         }
     }
 
     public void updateMessage(String message) {
-//        System.out.println("Updating message" + message);
+//        System.out.println("Updating message: " + message);
         if (this.allMessages == null) {
             this.allMessages.setText(message);
         }  else {
@@ -384,17 +433,20 @@ public class Controller implements Initializable {
 //            System.out.println("Message to send: " + message.getText());
             this.messageInput.clear();
         }
+        else if(!this.client.getUser().isConnected()){
+            Platform.runLater(() -> {
+                this.client.getController().getLabel().setText("Can't send message, because you are not connected to the server!");
+            });
+        }
         else if(this.messageInput.getText() == ""){
             Platform.runLater(() -> {
                 this.client.getController().getLabel().setText("Can't send empty message!");
             });
-//            System.out.println("Can't send empty message!");
         }
         else {
             Platform.runLater(() -> {
-                this.client.getController().getLabel().setText("Can't send message!");
+                this.client.getController().getLabel().setText("Choose room before sending message!");
             });
-//            System.out.println("Can't send message!");
         }
     }
 

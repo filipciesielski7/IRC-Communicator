@@ -31,11 +31,16 @@ public class ResponseFromServer implements Runnable {
         try {
             this.reader = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
             while (!stopped) {
-                String serverResponse = this.reader.readLine();
+
+                String serverResponse = "";
+                try{
+                    serverResponse = this.reader.readLine();
+                } catch (Exception e){
+                    System.out.println(e.toString());
+                }
 
                 if(serverResponse.contains("#")){
                     serverResponse = serverResponse.substring(serverResponse.indexOf("#"));
-//                    System.out.println(serverResponse);
                 }
                 else{
                     final String response_copy = serverResponse;
@@ -49,10 +54,10 @@ public class ResponseFromServer implements Runnable {
                                 this.client.getController().getResponseFromServer().setStopped(true);
                                 this.client.getSocket().close();
                             } catch (Exception e){
+                                System.out.println(e.toString());
                             }
                         });
                     }
-//                    System.out.println(serverResponse);
                     Platform.runLater(() -> {
                         this.client.getController().getLabel().setText(response_copy);
                     });
@@ -109,8 +114,6 @@ public class ResponseFromServer implements Runnable {
                             if (client.getController().getAllMessages() != null) {
                                 client.getController().getAllMessages().clear();
                             }
-//                            System.out.println("Length of messages: " + room.getMessages().size());
-//                            room.getMessages().forEach(message -> System.out.println(message.textFormat()));
                             room.getMessages().forEach(message -> client.getController().updateMessage(message.textFormat()));
                         }
 
@@ -142,7 +145,7 @@ public class ResponseFromServer implements Runnable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
         }
     }
 }
