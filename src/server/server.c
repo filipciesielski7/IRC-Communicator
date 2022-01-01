@@ -382,7 +382,7 @@ void *ThreadBehavior(void *t_data)
     users[(*th_data).userID].name[0] = '_';
 
     int i, j, k, l, bytes;
-    char c, string[MESSAGE_SIZE];
+    char c, string[MESSAGE_SIZE], name[LOGIN_SIZE];
 
     while (1)
     {
@@ -398,6 +398,7 @@ void *ThreadBehavior(void *t_data)
                 switch ((*th_data).fromClient[1])
                 {
                 case '0': // Modifying user name
+                    strcpy(name, users[(*th_data).userID].name);
                     memset(users[(*th_data).userID].name, 0, sizeof(users[(*th_data).userID].name));
                     for (i = 3; i < (*th_data).bytes; i++)
                     {
@@ -409,7 +410,14 @@ void *ThreadBehavior(void *t_data)
                         else
                         {
                             printf("Modified user %d name to \"%s\"\n", (*th_data).userID + 1, users[(*th_data).userID].name);
-                            write((*th_data).socket, "Name was changed succesfully!\n", 31);
+                            if (strcmp(name, "_") == 0)
+                            {
+                                write((*th_data).socket, "Connected to the server!\n", 26);
+                            }
+                            else
+                            {
+                                write((*th_data).socket, "Name was changed succesfully!\n", 31);
+                            }
                             break;
                         }
                     }
