@@ -34,6 +34,9 @@ public class Controller implements Initializable {
     private Room activeRoom;
     private User activeUser;
     private String chosenRoom;
+    private Thread t;
+
+
 
     @FXML
     private ChoiceBox choiceRoom;
@@ -208,7 +211,7 @@ public class Controller implements Initializable {
                 if (client.getSocket() != null) {
                     this.responseFromServer = new ResponseFromServer(this.client);
                     responseFromServer.setStopped(false);
-                    Thread t = new Thread(this.responseFromServer);
+                    t = new Thread(this.responseFromServer);
                     t.start();
 
                     client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
@@ -256,7 +259,8 @@ public class Controller implements Initializable {
                 messageInput.clear();
                 newRoomName.clear();
                 username.clear();
-                stage.close();
+                // stage.close();
+                t.interrupt();
             } catch (IOException ex) {
                 Platform.runLater(() -> {
                     this.client.getController().getLabel().setText("Cant' disconnect!");
