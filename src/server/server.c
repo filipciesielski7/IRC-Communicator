@@ -85,13 +85,13 @@ void initServerSockAddr()
 
 void initStruct()
 {
-    for (int i = 0; i < USER_SIZE; i++)
-    {
-        deleteUser(i);
-    }
     for (int i = 0; i < ROOM_SIZE; i++)
     {
         deleteRoom(i);
+    }
+    for (int i = 0; i < USER_SIZE; i++)
+    {
+        deleteUser(i);
     }
 }
 
@@ -269,6 +269,16 @@ void sendToRoom(int roomID, char message[MESSAGE_SIZE], int msg_length)
 void deleteUser(int userID)
 {
     int i = userID;
+
+    for (int j = 0; j < ROOM_SIZE; j++)
+    {
+        if (rooms[j].users[0] == i)
+        {
+            printf("Removing room \"%s\"\n", rooms[j].name);
+            deleteRoom(j);
+        }
+    }
+
     if (i >= 0)
     {
         users[i].socket = -1;
@@ -286,7 +296,7 @@ void deleteRoom(int roomID)
         {
             rooms[i].users[j] = -1;
         }
-        memset(rooms[i].messages, 0, sizeof(rooms[i].messages[0][0] * NUMBER_OF_MESSAGES * MESSAGE_SIZE));
+        memset(rooms[i].messages, 0, sizeof(rooms[i].messages[0][0]) * NUMBER_OF_MESSAGES * MESSAGE_SIZE);
     }
 }
 
@@ -679,27 +689,6 @@ void *ThreadBehavior(void *t_data)
                         rooms[i].users[j] = -1;
                     }
                     break;
-
-                    // case 'x': // Displaying info
-                    //     printf("Users:\n");
-                    //     for (i = 0; i < getFirstFreeUserSlot(); i++)
-                    //     {
-                    //         for (j = 0; j < LOGIN_SIZE; j++)
-                    //         {
-                    //             printf("%c", users[i].name[j]);
-                    //         }
-                    //         printf("\n");
-                    //     }
-                    //     printf("Rooms:\n");
-                    //     for (i = 0; i < getFirstFreeRoomID(); i++)
-                    //     {
-                    //         for (j = 0; j < ROOM_NAME_SIZE; j++)
-                    //         {
-                    //             printf("%c", rooms[i].name[j]);
-                    //         }
-                    //         printf("\n");
-                    //     }
-                    //     break;
                 }
 
                 bytes = update_server_response();
@@ -711,6 +700,11 @@ void *ThreadBehavior(void *t_data)
         {
             printf("User \"%s\" disconnected and deleted from server memory\n", users[(*th_data).userID].name);
             deleteUser((*th_data).userID);
+
+            bytes = update_server_response();
+            broadcast_server_response(bytes);
+            pthread_mutex_unlock(&mutex);
+
             free(t_data);
             pthread_exit(NULL);
         }
