@@ -1,7 +1,9 @@
-# IRC-Communicator
+<h1 align="center">
+    IRC-Communicator 💻 
+</h1>
 
-Filip Ciesielski 145257
-Michał Ciesielski 145325
+_Also available in: [Polski](README.pl.md)_
 
-System komunikacji grupowej typu IRC (dołączenie do pokoju, tworzenie pokoju, wysyłanie wiadomości w pokoju, odbieranie wiadomości z pokoju, możliwość usunięcia użytkowników z pokoju przez jego właściciela).
-Implementacja klienta w Javie.
+## About
+
+IRC-Communicator project for Computer Networks at Poznan University of Technology
