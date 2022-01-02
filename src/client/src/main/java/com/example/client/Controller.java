@@ -6,7 +6,6 @@ import com.example.client.structures.User;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -259,7 +258,6 @@ public class Controller implements Initializable {
                     responseFromServer.setStopped(false);
                     thread = new Thread(this.responseFromServer);
                     thread.start();
-
                     client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
                     try{
                         Thread.sleep(500);
@@ -576,5 +574,13 @@ public class Controller implements Initializable {
 
     public void setResponseFromServer(ResponseFromServer responseFromServer) {
         this.responseFromServer = responseFromServer;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

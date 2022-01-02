@@ -35,7 +35,7 @@ public class ResponseFromServer implements Runnable {
                 try{
                     serverResponse = this.reader.readLine();
                 } catch (Exception e){
-                    System.out.println(e.toString());
+//                    System.out.println(e.toString());
                 }
 
                 if(serverResponse.contains("#")){
@@ -45,11 +45,11 @@ public class ResponseFromServer implements Runnable {
                     final String response_copy = serverResponse;
                     if(response_copy.equals("At this moment there are to many users connected to the server. Please try again later!")){
                         Platform.runLater(() -> {
-                            this.client.getController().getLabel().setText(response_copy);
                             this.client.getUser().setConnected(false);
                             this.client.getUser().setUsername(null);
                             try {
                                 System.out.println("Disconnected: " + this.client.getSocket());
+                                this.client.getController().getLabel().setText(response_copy);
                                 this.client.getController().getResponseFromServer().setStopped(true);
                                 this.client.getSocket().close();
                             } catch (Exception e){
@@ -57,9 +57,11 @@ public class ResponseFromServer implements Runnable {
                             }
                         });
                     }
-                    Platform.runLater(() -> {
-                        this.client.getController().getLabel().setText(response_copy);
-                    });
+                    else if (!response_copy.equals("")) {
+                        Platform.runLater(() -> {
+                            this.client.getController().getLabel().setText(response_copy);
+                        });
+                    }
                     continue;
                 }
 
