@@ -6,6 +6,8 @@ import com.example.client.structures.User;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,9 +36,7 @@ public class Controller implements Initializable {
     private Room activeRoom;
     private User activeUser;
     private String chosenRoom;
-    private Thread t;
-
-
+    private Thread thread;
 
     @FXML
     private ChoiceBox choiceRoom;
@@ -52,6 +52,9 @@ public class Controller implements Initializable {
 
     @FXML
     private Button logout;
+
+    @FXML
+    private Button exit;
 
     @FXML
     private Button connect;
@@ -211,8 +214,8 @@ public class Controller implements Initializable {
                 if (client.getSocket() != null) {
                     this.responseFromServer = new ResponseFromServer(this.client);
                     responseFromServer.setStopped(false);
-                    t = new Thread(this.responseFromServer);
-                    t.start();
+                    thread = new Thread(this.responseFromServer);
+                    thread.start();
 
                     client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
                     try{
@@ -229,9 +232,7 @@ public class Controller implements Initializable {
             }
         }
         else if (client.getUser().getUsername() == null && username.getText().isEmpty()){
-            Platform.runLater(() -> {
                 this.client.getController().getLabel().setText("Enter username before connecting to the server!");
-            });
         }
         else if (client.getUser().getUsername() != null){
             Platform.runLater(() -> {
@@ -241,16 +242,13 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void onLogoutButtonClick() {
+    private void onLogoutButtonClick(Event event) {
+        Button button = (Button) event.getSource();
         if (client.getUser().isConnected()) {
             try {
                 System.out.println("Disconnected: " + client.getSocket());
                 responseFromServer.setStopped(true);
                 client.getSocket().close();
-
-                Platform.runLater(() -> {
-                    getLabel().setText("Disconnected from the server!");
-                });
 
                 getUsersList().getItems().clear();
                 getRoomsList().getItems().clear();
@@ -259,8 +257,10 @@ public class Controller implements Initializable {
                 messageInput.clear();
                 newRoomName.clear();
                 username.clear();
-                // stage.close();
-                t.interrupt();
+                if(button.getId().equals("exit")){
+                     stage.close();
+                }
+                thread.interrupt();
             } catch (IOException ex) {
                 Platform.runLater(() -> {
                     this.client.getController().getLabel().setText("Cant' disconnect!");
@@ -268,10 +268,17 @@ public class Controller implements Initializable {
             } catch (Exception e){
             }
 
+            Platform.runLater(() -> {
+                getLabel().setText("Disconnected from the server!");
+            });
+
             client.getUser().setUsername(null);
             client.getUser().setConnected(false);
         }
         else{
+            if(button.getId().equals("exit")){
+                stage.close();
+            }
             Platform.runLater(() -> {
                 this.client.getController().getLabel().setText("Can't disconnect, because you are not connected to the server!");
             });

@@ -12,7 +12,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
     <children>
         <ToolBar prefHeight="38.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -45,6 +45,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                     </cursor>
                 </Button>
+            <Button fx:id="exit" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" prefHeight="25.0" prefWidth="58.0" text="Exit" />
             </items>
         </ToolBar>
         <ListView fx:id="roomsList" layoutX="10.0" layoutY="49.0" prefHeight="274.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="49.0" />

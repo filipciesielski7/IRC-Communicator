@@ -6,7 +6,6 @@ import com.example.client.structures.User;
 import javafx.application.Platform;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ResponseFromServer implements Runnable {
