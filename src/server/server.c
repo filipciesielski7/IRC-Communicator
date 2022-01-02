@@ -85,13 +85,13 @@ void initServerSockAddr()
 
 void initStruct()
 {
-    for (int i = 0; i < USER_SIZE; i++)
-    {
-        deleteUser(i);
-    }
     for (int i = 0; i < ROOM_SIZE; i++)
     {
         deleteRoom(i);
+    }
+    for (int i = 0; i < USER_SIZE; i++)
+    {
+        deleteUser(i);
     }
 }
 
@@ -269,6 +269,28 @@ void sendToRoom(int roomID, char message[MESSAGE_SIZE], int msg_length)
 void deleteUser(int userID)
 {
     int i = userID;
+
+    for (int j = 0; j < ROOM_SIZE; j++)
+    {
+        if (rooms[j].users[0] == i)
+        {
+            printf("Removing room \"%s\"\n", rooms[j].name);
+            deleteRoom(j);
+        }
+    }
+
+    for (int j = 0; j < ROOM_SIZE; j++)
+    {
+        for (int k = 0; k < USER_SIZE; k++)
+        {
+            if (rooms[j].users[k] == i)
+            {
+                rooms[j].users[k] = -1;
+                break;
+            }
+        }
+    }
+
     if (i >= 0)
     {
         users[i].socket = -1;
@@ -286,7 +308,7 @@ void deleteRoom(int roomID)
         {
             rooms[i].users[j] = -1;
         }
-        memset(rooms[i].messages, 0, sizeof(rooms[i].messages[0][0] * NUMBER_OF_MESSAGES * MESSAGE_SIZE));
+        memset(rooms[i].messages, 0, sizeof(rooms[i].messages[0][0]) * NUMBER_OF_MESSAGES * MESSAGE_SIZE);
     }
 }
 
@@ -382,7 +404,7 @@ void *ThreadBehavior(void *t_data)
     users[(*th_data).userID].name[0] = '_';
 
     int i, j, k, l, bytes;
-    char c, string[MESSAGE_SIZE];
+    char c, string[MESSAGE_SIZE], name[LOGIN_SIZE];
 
     while (1)
     {
@@ -398,6 +420,7 @@ void *ThreadBehavior(void *t_data)
                 switch ((*th_data).fromClient[1])
                 {
                 case '0': // Modifying user name
+                    strcpy(name, users[(*th_data).userID].name);
                     memset(users[(*th_data).userID].name, 0, sizeof(users[(*th_data).userID].name));
                     for (i = 3; i < (*th_data).bytes; i++)
                     {
@@ -409,7 +432,14 @@ void *ThreadBehavior(void *t_data)
                         else
                         {
                             printf("Modified user %d name to \"%s\"\n", (*th_data).userID + 1, users[(*th_data).userID].name);
-                            write((*th_data).socket, "Name was changed succesfully!\n", 31);
+                            if (strcmp(name, "_") == 0)
+                            {
+                                write((*th_data).socket, "Connected to the server!\n", 26);
+                            }
+                            else
+                            {
+                                write((*th_data).socket, "Name was changed succesfully!\n", 31);
+                            }
                             break;
                         }
                     }
@@ -631,25 +661,23 @@ void *ThreadBehavior(void *t_data)
 
                     if (findUserInRoom((*th_data).userID, i) > 0)
                     {
-                        printf("User \"%s\" doesn't belong to \"%s\" room\n", users[(*th_data).userID].name, string);
+                        printf("User \"%s\" is not an admin of \"%s\" room\n", users[(*th_data).userID].name, string);
                         write((*th_data).socket, "You can't remove user from this room, because you are not an admin of this room!\n", 82);
                         break;
                     }
-
                     memset(string, 0, sizeof(string));
                     for (k = 0; k < LOGIN_SIZE; k++)
                     {
                         c = (*th_data).fromClient[j + k];
                         if (c != '$')
                         {
-                            string[l + k] = (*th_data).fromClient[j + k];
+                            string[k] = (*th_data).fromClient[j + k];
                         }
                         else
                         {
                             break;
                         }
                     }
-
                     int l = getUserIDbyName(string);
                     if (l == -1)
                     {
@@ -673,27 +701,6 @@ void *ThreadBehavior(void *t_data)
                         rooms[i].users[j] = -1;
                     }
                     break;
-
-                    // case 'x': // Displaying info
-                    //     printf("Users:\n");
-                    //     for (i = 0; i < getFirstFreeUserSlot(); i++)
-                    //     {
-                    //         for (j = 0; j < LOGIN_SIZE; j++)
-                    //         {
-                    //             printf("%c", users[i].name[j]);
-                    //         }
-                    //         printf("\n");
-                    //     }
-                    //     printf("Rooms:\n");
-                    //     for (i = 0; i < getFirstFreeRoomID(); i++)
-                    //     {
-                    //         for (j = 0; j < ROOM_NAME_SIZE; j++)
-                    //         {
-                    //             printf("%c", rooms[i].name[j]);
-                    //         }
-                    //         printf("\n");
-                    //     }
-                    //     break;
                 }
 
                 bytes = update_server_response();
@@ -705,6 +712,11 @@ void *ThreadBehavior(void *t_data)
         {
             printf("User \"%s\" disconnected and deleted from server memory\n", users[(*th_data).userID].name);
             deleteUser((*th_data).userID);
+
+            bytes = update_server_response();
+            broadcast_server_response(bytes);
+            pthread_mutex_unlock(&mutex);
+
             free(t_data);
             pthread_exit(NULL);
         }
