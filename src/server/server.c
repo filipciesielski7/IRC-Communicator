@@ -279,6 +279,18 @@ void deleteUser(int userID)
         }
     }
 
+    for (int j = 0; j < ROOM_SIZE; j++)
+    {
+        for (int k = 0; k < USER_SIZE; k++)
+        {
+            if (rooms[j].users[k] == i)
+            {
+                rooms[j].users[k] = -1;
+                break;
+            }
+        }
+    }
+
     if (i >= 0)
     {
         users[i].socket = -1;
