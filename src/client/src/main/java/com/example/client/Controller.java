@@ -38,6 +38,10 @@ public class Controller implements Initializable {
     private String chosenRoom;
     private Thread thread;
 
+    public static final int maxLengthUsername = 10;
+    public static final int maxLengthMessage = 256;
+    public static final int maxLengthRoomName = 20;
+
     @FXML
     private ChoiceBox choiceRoom;
 
@@ -99,11 +103,37 @@ public class Controller implements Initializable {
             }
         });
 
+        messageInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                try {
+                    if(newValue.length() > maxLengthMessage)
+                        messageInput.setText(oldValue);
+                } catch (Exception e) {
+                    messageInput.setText(oldValue);
+                }
+            }
+        });
+
         newRoomName.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     onAddRoomButtonClick();
+                }
+            }
+        });
+
+        newRoomName.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                try {
+                    if(newValue.length() > maxLengthRoomName)
+                        newRoomName.setText(oldValue);
+                } catch (Exception e) {
+                    newRoomName.setText(oldValue);
                 }
             }
         });
@@ -117,6 +147,19 @@ public class Controller implements Initializable {
                     } else{
                         onConnectButtonClick();
                     }
+                }
+            }
+        });
+
+        username.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                try {
+                    if(newValue.length() > maxLengthUsername)
+                        username.setText(oldValue);
+                } catch (Exception e) {
+                    username.setText(oldValue);
                 }
             }
         });
