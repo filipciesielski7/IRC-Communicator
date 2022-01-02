@@ -240,20 +240,22 @@ public class Controller implements Initializable {
     @FXML
     private void onLogoutButtonClick() {
         if (client.getUser().isConnected()) {
-            client.getUser().getRooms().forEach(x -> {
-                    client.getWriter().println("#3%" + x.getRoomName()+"$");
-                    try{
-                        Thread.sleep(500);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            );
-
             try {
                 System.out.println("Disconnected: " + client.getSocket());
                 responseFromServer.setStopped(true);
                 client.getSocket().close();
+
+                Platform.runLater(() -> {
+                    getLabel().setText("Disconnected from the server!");
+                });
+
+                getUsersList().getItems().clear();
+                getRoomsList().getItems().clear();
+                getAllMessages().clear();
+                choiceRoom.getItems().clear();
+                messageInput.clear();
+                newRoomName.clear();
+                username.clear();
                 stage.close();
             } catch (IOException ex) {
                 Platform.runLater(() -> {
