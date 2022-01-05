@@ -8,6 +8,8 @@ _Also available in: [Polski](README.pl.md)_
 
 IRC-Communicator project for Computer Networks at Poznan University of Technology. The application implements a text-based chat system, which is designed for group communication in discussion forums, called channels, but also allows one-on-one communication.
 
+![GUI](https://user-images.githubusercontent.com/56769119/148282306-e2745a51-fc1d-4e21-8661-eb5d989568c2.png)
+
 ## Folder Structure
 
 ```bash
