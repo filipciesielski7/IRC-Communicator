@@ -55,6 +55,8 @@ struct thread_data_t
     int bytes;
 };
 
+void signalHandler(int signal);
+
 void initServerSockAddr();
 void initStruct();
 int createSocket(int port);
@@ -75,6 +77,12 @@ void deleteRoom(int roomID);
 
 int update_server_response();
 void broadcast_server_response(int bytes);
+
+void signalHandler(int signal)
+{
+    printf("\nServer is closing by signal: %d\n", signal);
+    serverRunning = 0;
+}
 
 void initServerSockAddr()
 {
@@ -764,6 +772,12 @@ int main(int argc, char *argv[])
 
     int serverSocketDescriptor = createSocket(SERVER_PORT);
     initStruct();
+
+    struct sigaction sigIntHandler;
+    sigIntHandler.sa_handler = signalHandler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+    sigaction(SIGINT, &sigIntHandler, NULL);
 
     while (serverRunning)
     {
