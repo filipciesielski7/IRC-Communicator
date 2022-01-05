@@ -51,6 +51,12 @@ public class Controller implements Initializable {
     private TextField username;
 
     @FXML
+    private TextField ipAddress;
+
+    @FXML
+    private TextField portNumber;
+
+    @FXML
     private Button updateName;
 
     @FXML
@@ -150,6 +156,24 @@ public class Controller implements Initializable {
             }
         });
 
+        ipAddress.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                        onConnectButtonClick();
+                }
+            }
+        });
+
+        portNumber.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    onConnectButtonClick();
+                }
+            }
+        });
+
         username.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable,
@@ -162,6 +186,7 @@ public class Controller implements Initializable {
                 }
             }
         });
+
 
         choiceRoom.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -240,9 +265,21 @@ public class Controller implements Initializable {
 
     @FXML
     protected void onConnectButtonClick() {
+        Socket socket;
         if (client.getUser().getUsername() == null && !username.getText().isEmpty()) {
             try {
-                Socket socket = new Socket("localhost", 1234);
+                if(ipAddress.getText().isEmpty() && portNumber.getText().isEmpty()){
+                    socket = new Socket("localhost", 1234);
+                }
+                else if(ipAddress.getText().isEmpty() && !portNumber.getText().isEmpty()){
+                    socket = new Socket("localhost", Integer.parseInt(portNumber.getText()));
+                }
+                else if(!ipAddress.getText().isEmpty() && portNumber.getText().isEmpty()){
+                    socket = new Socket(ipAddress.getText(), 1234);
+                }
+                else{
+                    socket = new Socket(ipAddress.getText(), Integer.parseInt(portNumber.getText()));
+                }
                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
                 client.setSocket(socket);
@@ -298,6 +335,8 @@ public class Controller implements Initializable {
                 messageInput.clear();
                 newRoomName.clear();
                 username.clear();
+                ipAddress.clear();
+                portNumber.clear();
                 if(button.getId().equals("exit")){
                      stage.close();
                 }
@@ -444,6 +483,12 @@ public class Controller implements Initializable {
         if (client.getUser().isConnected() && activeUser != null && activeRoom != null) {
             if (client.getSocket() != null) {
                 client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
+
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         else{
@@ -462,6 +507,12 @@ public class Controller implements Initializable {
         if (client.getUser().isConnected() && activeRoom != null) {
             if (client.getSocket() != null) {
                 client.getWriter().println("#3%" + activeRoom.getRoomName() +"$");
+
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         else{

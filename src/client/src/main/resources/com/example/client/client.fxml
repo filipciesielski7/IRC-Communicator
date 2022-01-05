@@ -12,7 +12,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.Controller">
     <children>
         <ToolBar prefHeight="38.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -26,7 +26,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                     </cursor>
                 </Button>
-                <TextField fx:id="username" prefHeight="25.0" prefWidth="114.0" promptText="username">
+                <TextField fx:id="username" prefHeight="25.0" prefWidth="111.0" promptText="username">
                     <cursor>
                         <Cursor fx:constant="TEXT" />
                     </cursor>
@@ -36,6 +36,8 @@
                         <Cursor fx:constant="OPEN_HAND" />
                     </cursor>
                 </Button>
+            <TextField fx:id="ipAddress" prefHeight="25.0" prefWidth="111.0" promptText="localhost" />
+            <TextField fx:id="portNumber" prefHeight="25.0" prefWidth="58.0" promptText="port" />
                 <Button fx:id="connect" mnemonicParsing="false" onMouseClicked="#onConnectButtonClick" text="Connect" />
                 <Button fx:id="logout" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onLogoutButtonClick" text="Disconnect">
                     <opaqueInsets>
