@@ -25,6 +25,32 @@ PROJECT_FOLDER
                 └── client.fxml     # JavaFX
 ```
 
+## Getting Started
+
+### Server
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/filipciesielski7/IRC-Communicator.git
+   ```
+2. Navigate into the server directory
+   ```
+   cd src/server
+   ```
+3. Run this command to compile server:
+   ```
+   gcc -pthread server.c -o server -Wall
+   ```
+4. After server is compiled you can now run it using:
+   ```
+   ./server <port number> lub ./server (by default port 1234).
+   ```
+
+### Client
+
+The project is a standard Maven project. To run it from the command line, type `mvn clean javafx:run` in `src/client` directory or import the project to your IDE of choice as you would with any Maven project.
+
 ## Contributors
-* Filip Ciesielski 145257
-* Michał Ciesielski 145325
+
+- Filip Ciesielski 145257
+- Michał Ciesielski 145325

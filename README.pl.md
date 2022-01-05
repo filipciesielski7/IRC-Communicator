@@ -25,6 +25,31 @@ PROJECT_FOLDER
                 └── client.fxml     # JavaFX
 ```
 
+## Uruchamianie
+
+### Serwer
+
+1. Klonowanie repozytorium
+   ```sh
+   git clone https://github.com/filipciesielski7/IRC-Communicator.git
+   ```
+2. Przejście do folderu server
+   ```
+   cd src/server
+   ```
+3. Kompilacja
+   ```
+   gcc -pthread server.c -o server -Wall
+   ```
+4. Uruchomienie
+   ```
+   ./server <numer portu> lub ./server (domyślnie port 1234).
+   ```
+
+### Klient
+
+Klienta uruchamiamy poleceniem `mvn clean javafx:run` w katalogu `src/client` lub przy pomocy wybranego środowiska po otworzeniu projektu ze wspomnianego katalogu.
+
 ## Autorzy
 
 - Filip Ciesielski 145257
