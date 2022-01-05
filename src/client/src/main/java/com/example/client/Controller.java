@@ -441,7 +441,7 @@ public class Controller implements Initializable {
     }
 
     public void onDeleteUserButtonClick() {
-        if (client.getUser().isConnected() && activeUser != null) {
+        if (client.getUser().isConnected() && activeUser != null && activeRoom != null) {
             if (client.getSocket() != null) {
                 client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
             }
@@ -452,7 +452,25 @@ public class Controller implements Initializable {
                     this.client.getController().getLabel().setText("Can't delete user, because you are not connected to the server!");
                 }
                 else{
-                    this.client.getController().getLabel().setText("Choose user before removing!");
+                    this.client.getController().getLabel().setText("Choose user and room before removing!");
+                }
+            });
+        }
+    }
+
+    public void onLeaveRoomButtonClick() {
+        if (client.getUser().isConnected() && activeRoom != null) {
+            if (client.getSocket() != null) {
+                client.getWriter().println("#3%" + activeRoom.getRoomName() +"$");
+            }
+        }
+        else{
+            Platform.runLater(() -> {
+                if(!this.client.getUser().isConnected()){
+                    this.client.getController().getLabel().setText("Can't leave room, because you are not connected to the server!");
+                }
+                else{
+                    this.client.getController().getLabel().setText("Choose room before leaving!");
                 }
             });
         }

@@ -48,7 +48,7 @@
             <Button fx:id="exit" mnemonicParsing="false" onMouseClicked="#onLogoutButtonClick" prefHeight="25.0" prefWidth="58.0" text="Exit" />
             </items>
         </ToolBar>
-        <ListView fx:id="roomsList" layoutX="10.0" layoutY="49.0" prefHeight="274.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="49.0" />
+        <ListView fx:id="roomsList" layoutX="10.0" layoutY="80.0" prefHeight="253.0" prefWidth="114.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
         <TextField fx:id="messageInput" alignment="TOP_LEFT" layoutX="132.0" layoutY="327.0" prefHeight="59.0" prefWidth="342.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="132.0" AnchorPane.rightAnchor="136.0">
             <cursor>
                 <Cursor fx:constant="TEXT" />
@@ -74,5 +74,6 @@
       <Button layoutX="482.0" layoutY="49.0" mnemonicParsing="false" onMouseClicked="#onDeleteUserButtonClick" prefHeight="25.0" prefWidth="114.0" text="Delete user" AnchorPane.rightAnchor="14.0" />
       <Label fx:id="label" alignment="CENTER_RIGHT" layoutX="15.0" layoutY="390.0" prefHeight="17.0" prefWidth="571.0" textFill="RED" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" />
       <Separator layoutX="480.0" layoutY="103.0" prefHeight="4.0" prefWidth="99.0" AnchorPane.rightAnchor="21.0" />
+      <Button layoutX="10.0" layoutY="49.0" mnemonicParsing="false" onMouseClicked="#onLeaveRoomButtonClick" prefHeight="25.0" prefWidth="114.0" text="Leave room" />
     </children>
 </AnchorPane>
