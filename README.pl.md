@@ -8,6 +8,10 @@ _Dostępne również w wersji po: [English](README.md)_
 
 IRC-Komunikator - projekt w ramach przedmiotu Sieci Komputerowe na Politechnice Poznańskiej. Aplikacja implementuje komunikator grupowy typu IRC z możliwością dołączenia do pokoju, tworzenia pokoju, wysyłania wiadomości w pokoju, odbierania wiadomości z pokoju, wyjścia z pokoju czy usunięcia danego użytkownika z pokoju przez jego właściciela.
 
+![GUI](https://user-images.githubusercontent.com/56769119/148282468-763f3019-a198-4b50-bd19-ada9ed91d85b.png)
+
+Celem projektu było zaimplementowanie serwera TCP w [C](https://en.wikipedia.org/wiki/C_(programming_language)) oraz klienta w [Javie](https://www.java.com/) z możliwością wykonywania wyżej wymienionych aktywności zgodnie z definicją komunikatora IRC. GUI klienta zostało zaimplementowane przy pomocy [JavaFX](https://openjfx.io/).
+
 ## Struktura folderu
 
 ```bash
@@ -22,7 +26,7 @@ PROJECT_FOLDER
         └──[src/main]
             └──[java] # Klient zaimplementowany w Javie
             └──[resources/com/example/client]
-                └── client.fxml     # JavaFX
+                └── client.fxml # JavaFX
 ```
 
 ## Uruchamianie

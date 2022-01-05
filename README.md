@@ -10,6 +10,8 @@ IRC-Communicator project for Computer Networks at Poznan University of Technolog
 
 ![GUI](https://user-images.githubusercontent.com/56769119/148282306-e2745a51-fc1d-4e21-8661-eb5d989568c2.png)
 
+The main goal of this project was to implement IRC-Communicator TCP server in [C](https://en.wikipedia.org/wiki/C_(programming_language)) and [Java](https://www.java.com/) client, who can join the room, create new room, send message in room, receive messages from other users in room, leave the room or remove other users from own room. Client GUI was implemenented using [JavaFX](https://openjfx.io/).
+
 ## Folder Structure
 
 ```bash
@@ -24,7 +26,7 @@ PROJECT_FOLDER
         └──[src/main]
             └──[java] # Client implemented in Java
             └──[resources/com/example/client]
-                └── client.fxml     # JavaFX
+                └── client.fxml # JavaFX
 ```
 
 ## Getting Started
