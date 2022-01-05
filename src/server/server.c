@@ -27,8 +27,6 @@ static volatile int serverRunning = 1;
 #define ROOM_NAME_SIZE 20
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_users = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_rooms = PTHREAD_MUTEX_INITIALIZER;
 
 struct sockaddr_in server_address;
 
@@ -84,11 +82,11 @@ void signalHandler(int signal)
     serverRunning = 0;
 }
 
-void initServerSockAddr()
+void initServerSockAddr(int port)
 {
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_address.sin_port = htons(SERVER_PORT);
+    server_address.sin_port = htons(port);
 }
 
 void initStruct()
@@ -109,7 +107,7 @@ int createSocket(int port)
     char reuseAddrVal = 1;
 
     memset(&server_address, 0, sizeof(struct sockaddr));
-    initServerSockAddr();
+    initServerSockAddr(port);
 
     serverSocketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocketDescriptor < 0)
@@ -769,8 +767,13 @@ void handleConnection(int connectionSocketDescriptor)
 int main(int argc, char *argv[])
 {
     printf("Server is running\n");
+    int port = SERVER_PORT;
+    if (argc >= 2)
+    {
+        port = atoi(argv[1]);
+    }
 
-    int serverSocketDescriptor = createSocket(SERVER_PORT);
+    int serverSocketDescriptor = createSocket(port);
     initStruct();
 
     struct sigaction sigIntHandler;
