@@ -244,12 +244,11 @@ public class Controller implements Initializable {
                     break;
                 }
             }
-            client.getWriter().println("#2%" + result.getRoomName() + "$");
-            try{
-                Thread.sleep(500);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            final Room resultRoom = result;
+            Thread thread = new Thread(() -> {
+                client.getWriter().println("#2%" + resultRoom.getRoomName() + "$");
+            });
+            thread.start();
         }
         else{
             Platform.runLater(() -> {
@@ -295,12 +294,12 @@ public class Controller implements Initializable {
                     responseFromServer.setStopped(false);
                     thread = new Thread(this.responseFromServer);
                     thread.start();
-                    client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
-                    try{
-                        Thread.sleep(500);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
+
+                    Thread thread = new Thread(() -> {
+                        client.getWriter().println("#0%" + client.getUser().getUsername() +"$");
+
+                    });
+                    thread.start();
                 }
 
             } catch (IOException ex) {
@@ -370,12 +369,10 @@ public class Controller implements Initializable {
         if (client.getUser().isConnected() && !username.getText().isEmpty() && !username.getText().equals(client.getUser().getUsername())) {
             client.getUser().setUsername(username.getText());
             if (client.getSocket() != null) {
-                client.getWriter().println("#0%" + client.getUser().getUsername()+"$");
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                Thread thread = new Thread(() -> {
+                    client.getWriter().println("#0%" + client.getUser().getUsername() +"$");
+                });
+                thread.start();
             }
         }
         else if (username.getText().equals(client.getUser().getUsername())){
@@ -401,12 +398,11 @@ public class Controller implements Initializable {
     private void onAddRoomButtonClick() {
         if (client.getUser().isConnected() && !newRoomName.getText().isEmpty()) {
             if (client.getSocket() != null) {
-                client.getWriter().println("#1%" + newRoomName.getText()+"$");
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                final String roomName = newRoomName.getText();
+                Thread thread = new Thread(() -> {
+                    client.getWriter().println("#1%" + roomName +"$");
+                });
+                thread.start();
                 newRoomName.setText("");
             }
         }
@@ -482,13 +478,13 @@ public class Controller implements Initializable {
     public void onDeleteUserButtonClick() {
         if (client.getUser().isConnected() && activeUser != null && activeRoom != null) {
             if (client.getSocket() != null) {
-                client.getWriter().println("#5%" + activeRoom.getRoomName() + "%" + activeUser.getUsername() +"$");
 
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                final String roomName = activeRoom.getRoomName();
+                final String userName = activeUser.getUsername();
+                Thread thread = new Thread(() -> {
+                    client.getWriter().println("#5%" + roomName + "%" + userName +"$");
+                });
+                thread.start();
             }
         }
         else{
@@ -506,13 +502,12 @@ public class Controller implements Initializable {
     public void onLeaveRoomButtonClick() {
         if (client.getUser().isConnected() && activeRoom != null) {
             if (client.getSocket() != null) {
-                client.getWriter().println("#3%" + activeRoom.getRoomName() +"$");
 
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                final String roomName = activeRoom.getRoomName();
+                Thread thread = new Thread(() -> {
+                    client.getWriter().println("#3%" + roomName +"$");
+                });
+                thread.start();
             }
         }
         else{
@@ -545,13 +540,14 @@ public class Controller implements Initializable {
             text = text.replaceAll(";", "+;+");
 
             Message message = new Message(client.getUser().getUsername(), activeRoom.getRoomName(), time, text);
-            client.getWriter().println("#4%" + message.getRoomName() + "%" + message.getTime() + ";" + message.getText() + "$");
 
-            try{
-                Thread.sleep(500);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            final String roomName = message.getRoomName();
+            final String messageTime = message.getTime();
+            final String messageInfo = message.getText();
+            Thread thread = new Thread(() -> {
+                client.getWriter().println("#4%" + roomName + "%" + messageTime + ";" + messageInfo + "$");
+            });
+            thread.start();
 
 //            System.out.println("Message to send: " + message.getText());
             this.messageInput.clear();
