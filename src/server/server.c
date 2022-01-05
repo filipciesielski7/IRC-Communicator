@@ -583,7 +583,7 @@ void *ThreadBehavior(void *t_data)
                     if (i == -1)
                     {
                         printf("Room \"%s\" doesn't exist\n", string);
-                        write((*th_data).socket, "Room with typed name doesn't exist!\n", 37);
+                        write((*th_data).socket, "Room with entered name doesn't exist!\n", 37);
                         break;
                     }
 
@@ -690,7 +690,7 @@ void *ThreadBehavior(void *t_data)
                     if (j == 0)
                     {
                         printf("User \"%s\" can't delete himself\n", users[(*th_data).userID].name);
-                        write((*th_data).socket, "You can't remove yourself. If you want to leave and delete this room, please use option 3!\n", 92);
+                        write((*th_data).socket, "You can't remove yourself. If you want to leave and delete this room, please use button \"Leave room\"!\n", 103);
                         break;
                     }
 
