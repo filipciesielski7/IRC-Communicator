@@ -70,7 +70,6 @@ public class ResponseFromServer implements Runnable {
                             this.client.getUser().getRooms().clear();
                             this.client.getAllRooms().clear();
                             this.client.getController().getChoiceRoom().getItems().clear();
-//                            this.client.getController().getUsersList().getItems().clear();
                             this.client.getController().getRoomsList().getItems().clear();
                         }
                 );
@@ -142,7 +141,12 @@ public class ResponseFromServer implements Runnable {
                     }
                 }
                 else{
-                    this.client.getController().displayRoomsList(true);
+                    Platform.runLater(
+                            () -> {
+                                this.client.getController().displayRoomsList(true);
+                                this.client.getController().getAllMessages().clear();
+                            }
+                    );
                 }
             }
         } catch (Exception e) {
