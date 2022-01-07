@@ -30,7 +30,6 @@ public class ResponseFromServer implements Runnable {
         try {
             this.reader = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
             while (!stopped) {
-
                 String serverResponse = "";
                 try{
                     serverResponse = this.reader.readLine();
