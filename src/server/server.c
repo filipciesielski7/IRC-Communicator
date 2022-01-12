@@ -756,7 +756,7 @@ void handleConnection(int connectionSocketDescriptor)
     }
     else
     {
-        write(connectionSocketDescriptor, "At this moment there are to many users connected to the server. Please try again later!\n", 90);
+        write(connectionSocketDescriptor, "At this moment there are to many users connected to the server. Please try again later!\n", 89);
         close(connectionSocketDescriptor);
         printf("New user can't be added due to slots limit\n");
     }
