@@ -10,7 +10,7 @@ IRC-Communicator project for Computer Networks at Poznan University of Technolog
 
 ![GUI](https://user-images.githubusercontent.com/56769119/148282306-e2745a51-fc1d-4e21-8661-eb5d989568c2.png)
 
-The main goal of this project was to implement IRC-Communicator TCP server in [C](https://en.wikipedia.org/wiki/C_(programming_language)) and [Java](https://www.java.com/) client, who can join the room, create new room, send message in room, receive messages from other users in room, leave the room or remove other users from own room. Client GUI was implemenented using [JavaFX](https://openjfx.io/).
+The main goal of this project was to implement IRC-Communicator TCP server in [C](<https://en.wikipedia.org/wiki/C_(programming_language)>) and [Java](https://www.java.com/) client through which the user can join the room, create a new room, send message in the room, receive messages from other users in the room, leave the room or remove other users from the own room. Client GUI was implemented using [JavaFX](https://openjfx.io/).
 
 ## Folder Structure
 
@@ -52,9 +52,10 @@ PROJECT_FOLDER
 
 ### Client
 
-The project is a standard Maven project. To run it from the command line, type `mvn clean javafx:run` in `src/client` directory or import the project to your IDE of choice as you would with any Maven project.
+The project is a standard Maven project. To run it from the command line, type `mvn clean javafx:run` in `src/client` directory or import the project to your IDE of choice as you would with any Maven project and run it using Java 17.
 
 ## Contributors
 
-- Filip Ciesielski 145257
-- Michał Ciesielski 145325
+<a href="https://github.com/filipciesielski7/IRC-Communicator/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=filipciesielski7/IRC-Communicator" />
+</a>

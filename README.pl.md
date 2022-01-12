@@ -10,7 +10,7 @@ IRC-Komunikator - projekt w ramach przedmiotu Sieci Komputerowe na Politechnice 
 
 ![GUI](https://user-images.githubusercontent.com/56769119/148282468-763f3019-a198-4b50-bd19-ada9ed91d85b.png)
 
-Celem projektu było zaimplementowanie serwera TCP w [C](https://en.wikipedia.org/wiki/C_(programming_language)) oraz klienta w [Javie](https://www.java.com/) z możliwością wykonywania wyżej wymienionych aktywności zgodnie z definicją komunikatora IRC. GUI klienta zostało zaimplementowane przy pomocy [JavaFX](https://openjfx.io/).
+Celem projektu było zaimplementowanie serwera TCP w [C](<https://en.wikipedia.org/wiki/C_(programming_language)>) oraz klienta w [Javie](https://www.java.com/) z możliwością wykonywania wyżej wymienionych aktywności zgodnie z definicją komunikatora IRC. GUI klienta zostało zaimplementowane przy pomocy [JavaFX](https://openjfx.io/).
 
 ## Struktura folderu
 
@@ -52,9 +52,10 @@ PROJECT_FOLDER
 
 ### Klient
 
-Klienta uruchamiamy poleceniem `mvn clean javafx:run` w katalogu `src/client` lub przy pomocy wybranego środowiska po otworzeniu projektu ze wspomnianego katalogu.
+Klienta uruchamiamy poleceniem `mvn clean javafx:run` w katalogu `src/client` lub przy pomocy wybranego środowiska po otworzeniu projektu ze wspomnianego katalogu korzystając z Javy w wersji 17.
 
 ## Autorzy
 
-- Filip Ciesielski 145257
-- Michał Ciesielski 145325
+<a href="https://github.com/filipciesielski7/IRC-Communicator/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=filipciesielski7/IRC-Communicator" />
+</a>
